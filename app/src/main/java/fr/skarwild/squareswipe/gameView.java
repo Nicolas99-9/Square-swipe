@@ -1,12 +1,15 @@
 package fr.skarwild.squareswipe;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -17,7 +20,9 @@ public class gameView extends SurfaceView implements Runnable {
     private SurfaceHolder ourHolder;
     private Paint paint;
     private boolean playing;
+
     private  GameBoard board;
+    private BoardUI boardUI;
     // This variable tracks the game frame rate
     long fps;
     Thread gameThread = null;
@@ -26,15 +31,26 @@ public class gameView extends SurfaceView implements Runnable {
     private long timeThisFrame;
 
     private Canvas canvas;
-    public gameView(Context context) {
-        super(context);
+    public gameView(Activity context) {
+        super(context.getApplicationContext());
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+
+        board = new GameBoard(7,7);
+        boardUI = new BoardUI(board,width,height);
+
+
 
         // Initialize ourHolder and paint objects
         ourHolder = getHolder();
         paint = new Paint();
         paint.setAntiAlias(true);
         playing = true;
-        board = new GameBoard(5,5);
     }
 
     @Override
@@ -78,6 +94,8 @@ public class gameView extends SurfaceView implements Runnable {
                 cornersRadius, // ry
                 paint // Paint
         );
+
+        boardUI.drawBoard(c);
     }
     public void pause() {
         playing = false;

@@ -37,4 +37,7 @@ public class GameBoard {
             Log.v("board debug " , buffer);
         }
     }
+    public  ArrayList<ArrayList<actuel>> getBoard(){
+        return board;
+    }
 }

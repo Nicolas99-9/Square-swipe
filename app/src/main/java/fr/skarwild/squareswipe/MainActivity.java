@@ -3,6 +3,7 @@ package fr.skarwild.squareswipe;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 
 public class MainActivity extends Activity
 {
@@ -13,6 +14,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         gameView = new gameView(this);
         setContentView(gameView);
+
     }
 
     // This method executes when the player starts the game
