@@ -69,4 +69,13 @@ public class BoardUI {
         }
     }
 
+    public void checkCollision(float x, float y) {
+        for(int i=0;i< boardUI.size();i++) {
+            for (int j = 0; j < boardUI.get(0).size(); j++) {
+                if(boardUI.get(i).get(j).contains(x,y)){
+                    Log.v("Intersection " , " " + i + " " + j);
+                }
+            }
+        }
+    }
 }

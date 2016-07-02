@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -88,13 +89,13 @@ public class gameView extends SurfaceView implements Runnable {
         int cornersRadius = 25;
 
         // Finally, draw the rounded corners rectangle object on the canvas
-        c.drawRoundRect(
+       /* c.drawRoundRect(
                 rect, // rect
                 cornersRadius, // rx
                 cornersRadius, // ry
                 paint // Paint
         );
-
+        */
         boardUI.drawBoard(c);
     }
     public void pause() {
@@ -115,5 +116,38 @@ public class gameView extends SurfaceView implements Runnable {
         gameThread.start();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+
+            // Player has touched the screen
+            case MotionEvent.ACTION_DOWN:
+                Log.v("MORION DOWN","DOWN");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //Log.v("MORION DOWN","MOVE");
+                boardUI.checkCollision(motionEvent.getX(),motionEvent.getY());
+                break;
+
+            // Player has removed finger from screen
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+        return true;
+
+        /*       switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                return "ACTION_DOWN";
+            case MotionEvent.ACTION_MOVE:
+                return "ACTION_MOVE";
+            case MotionEvent.ACTION_UP:
+                return "ACTION_UP";
+            case MotionEvent.ACTION_CANCEL:
+                return "ACTION_CANCEL";
+        }
+
+        */
+    }
 
 }
