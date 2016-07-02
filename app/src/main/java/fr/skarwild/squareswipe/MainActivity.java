@@ -13,18 +13,23 @@ public class MainActivity extends Activity
 {
 
     private gameView gameView;
+    private TextView scoreTextView;
+    private TextView multiplierTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameView = new gameView(this);
         setContentView(R.layout.activity_main);
 
-        TextView myTextView=(TextView)findViewById(R.id.scoreText);
+        scoreTextView =(TextView)findViewById(R.id.scoreText);
         Typeface typeFace=Typeface.createFromAsset(getAssets(),"font1.ttf");
-        myTextView.setTypeface(typeFace);
+        scoreTextView.setTypeface(typeFace);
 
         LinearLayout tmp = (LinearLayout) findViewById(R.id.surfaceViewMain);
         tmp.addView(gameView);
+
+        multiplierTextView =(TextView)findViewById(R.id.multiplier);
+        multiplierTextView.setTypeface(typeFace);
 
     }
 

@@ -124,6 +124,7 @@ public class gameView extends SurfaceView implements Runnable {
             // Player has touched the screen
             case MotionEvent.ACTION_DOWN:
                 Log.v("MORION DOWN","DOWN");
+                boardUI.checkCollision(motionEvent.getX(),motionEvent.getY());
                 break;
             case MotionEvent.ACTION_MOVE:
                 //Log.v("MORION DOWN","MOVE");
@@ -132,6 +133,7 @@ public class gameView extends SurfaceView implements Runnable {
 
             // Player has removed finger from screen
             case MotionEvent.ACTION_UP:
+                boardUI.reloadPositionClick();
                 break;
         }
         return true;
@@ -149,7 +151,7 @@ public class gameView extends SurfaceView implements Runnable {
 
 
 
-        
+
 
         */
     }

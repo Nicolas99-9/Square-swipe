@@ -7,6 +7,7 @@
     tools:context="fr.skarwild.squareswipe.MainActivity">
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/surfaceViewMain"/>
@@ -25,8 +26,49 @@
             android:text="Score : 0"
             android:textSize="30dp"
             android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/multiplier"
+            android:layout_marginRight="10dp"
+            android:text="x 1.0"
+            android:textSize="35dp"
+            android:textColor="#FFFFFF"/>
     </RelativeLayout>
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/reloadb"
+            android:id="@+id/reloadB"
+
+            />
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/pauseb"
+            android:id="@+id/pauseB"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            />
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/homeb"
+            android:id="@+id/homeB"
+            />
+    </LinearLayout>
 
 
 </RelativeLayout>
