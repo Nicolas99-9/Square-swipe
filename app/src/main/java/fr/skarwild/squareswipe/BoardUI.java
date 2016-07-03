@@ -41,7 +41,7 @@ public class BoardUI {
     private ArrayList<Pair<Integer,Integer>> positionsClick;
     private Context c;
 
-    
+
 
     BoardUI(GameBoard gameBoard, int width, int height,Context c){
         this.board = gameBoard;
