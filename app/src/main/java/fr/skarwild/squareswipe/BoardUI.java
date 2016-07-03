@@ -25,6 +25,15 @@ public class BoardUI {
     private Paint paint;
     private int col;
 
+    //pour le dessing
+    private float widthSquare;
+    private float decallageHaut;
+
+    private Paint paintViolet;
+    private float cornersRadius =18f;
+
+    private RectF tmpDrawHalf;
+
     private ArrayList<Pair<Integer,Integer>> positionsClick;
 
     BoardUI(GameBoard gameBoard, int width, int height){
@@ -36,13 +45,10 @@ public class BoardUI {
         this.width = width;
         this.height = height;
         float OFFSET = 8f;
-        float  widthSquare = Math.min(((width - 5*OFFSET-2*50)/tmp.get(0).size()),200);
-        paint = new Paint();
-        paint.setAntiAlias(true);
-        col = Color.argb(255,238,238,238);
-        paint.setColor(col);
+        widthSquare = Math.min(((width - 5*OFFSET-2*50)/tmp.get(0).size()),200);
 
-        float decallageHaut = (height - tmp.size()  * (widthSquare + OFFSET))/2f;
+
+        decallageHaut = (height - tmp.size()  * (widthSquare + OFFSET))/2f;
         float accumulateur = -widthSquare + decallageHaut - OFFSET;
         Log.v("decallageHaut",""+decallageHaut);
 
@@ -56,13 +62,22 @@ public class BoardUI {
                 //tst
             }
         }
+
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        col = Color.argb(255,238,238,238);
+        paint.setColor(col);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(10f);
+
+        paintViolet = new Paint();
+        paintViolet.setAntiAlias(true);
+        paintViolet.setStrokeCap(Paint.Cap.ROUND);
+        paintViolet.setColor(Color.argb(255,128,76,169));
     }
 
 
     public void drawBoard(Canvas c){
-        float cornersRadius =18f;
         paint.setColor(col);
         for(int i=0;i< boardUI.size();i++) {
             for (int j = 0; j < boardUI.get(0).size(); j++) {
@@ -84,6 +99,26 @@ public class BoardUI {
             RectF e2 = boardUI.get(p2.first).get(p2.second);
             c.drawLine(e1.centerX(),e1.centerY(),e2.centerX(),e2.centerY(),paint);
         }
+
+
+        drawSquare(boardUI.get(0).get(3),c);
+    }
+
+    public  void drawSquare(RectF rect,Canvas c){
+        tmpDrawHalf = new RectF(rect.left,rect.top,0,0);
+
+        c.drawRoundRect(
+                tmpDrawHalf, // rect
+                cornersRadius, // rx
+                cornersRadius, // ry
+                paintViolet // Paint
+        );
+
+        /*
+        http://stackoverflow.com/questions/5896234/how-to-use-android-canvas-to-draw-a-roundrect-with-only-topleft-and-topright-cor/28655800#28655800
+        http://stackoverflow.com/questions/1705239/how-should-i-give-images-rounded-corners-in-android
+        http://stackoverflow.com/questions/17225374/rounding-only-one-image-corner-not-all-four
+         */
     }
 
     public void checkCollision(float x, float y) {

@@ -28,7 +28,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:id="@+id/reloadEnd"
-        android:src="@drawable/endR"
+        android:src="@drawable/endr"
         android:layout_centerInParent="true"/>
 
     <LinearLayout
