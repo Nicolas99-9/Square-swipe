@@ -4,8 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Debug;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Display;
@@ -35,8 +39,11 @@ public class BoardUI {
     private RectF tmpDrawHalf;
 
     private ArrayList<Pair<Integer,Integer>> positionsClick;
+    private Context c;
 
-    BoardUI(GameBoard gameBoard, int width, int height){
+    
+
+    BoardUI(GameBoard gameBoard, int width, int height,Context c){
         this.board = gameBoard;
         boardUI = new ArrayList<>();
         ArrayList<ArrayList<GameBoard.actuel>> tmp = gameBoard.getBoard();
@@ -46,7 +53,7 @@ public class BoardUI {
         this.height = height;
         float OFFSET = 8f;
         widthSquare = Math.min(((width - 5*OFFSET-2*50)/tmp.get(0).size()),200);
-
+        this.c = c;
 
         decallageHaut = (height - tmp.size()  * (widthSquare + OFFSET))/2f;
         float accumulateur = -widthSquare + decallageHaut - OFFSET;
@@ -113,6 +120,20 @@ public class BoardUI {
                 cornersRadius, // ry
                 paintViolet // Paint
         );
+
+
+        Drawable d = ContextCompat.getDrawable(this.c, R.drawable.squaretest);
+        d.setColorFilter(new
+                PorterDuffColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP));
+
+
+        d.setBounds((int)rect.left, (int)rect.top, (int)rect.centerX(), (int)rect.bottom);
+        d.draw(c);
+
+        d = ContextCompat.getDrawable(this.c, R.drawable.squaretest2);
+        d.setBounds((int)rect.centerX(), (int)rect.top, (int)rect.right, (int)rect.bottom);
+        d.draw(c);
+
 
         /*
         http://stackoverflow.com/questions/5896234/how-to-use-android-canvas-to-draw-a-roundrect-with-only-topleft-and-topright-cor/28655800#28655800

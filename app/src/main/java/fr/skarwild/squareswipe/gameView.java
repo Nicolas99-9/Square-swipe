@@ -43,7 +43,7 @@ public class gameView extends SurfaceView implements Runnable {
 
 
         board = new GameBoard(7,7);
-        boardUI = new BoardUI(board,width,height);
+        boardUI = new BoardUI(board,width,height,context);
 
 
 
