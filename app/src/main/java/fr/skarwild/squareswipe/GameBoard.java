@@ -13,6 +13,8 @@ public class GameBoard {
     public  enum actuel {Vide,Bleu,Vert,Violet}
 
     private ArrayList<ArrayList<actuel>> board;
+    private int score;
+    private float multiplier;
 
     public GameBoard(int lignes, int colonnes){
         board = new ArrayList<>();
@@ -24,6 +26,9 @@ public class GameBoard {
         }
 
         debugShow();
+        multiplier = 1.0f;
+        score = 0;
+
 
     }
 

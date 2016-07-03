@@ -1,10 +1,12 @@
 package fr.skarwild.squareswipe;
 
 import android.app.Activity;
+import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,15 +23,21 @@ public class MainActivity extends Activity
         gameView = new gameView(this);
         setContentView(R.layout.activity_main);
 
+
+
         scoreTextView =(TextView)findViewById(R.id.scoreText);
         Typeface typeFace=Typeface.createFromAsset(getAssets(),"font1.ttf");
         scoreTextView.setTypeface(typeFace);
 
         LinearLayout tmp = (LinearLayout) findViewById(R.id.surfaceViewMain);
+        /*SurfaceHolder sfhTrack = gameView.getHolder();
+        sfhTrack.setFormat(PixelFormat.TRANSLUCENT);
+        */
         tmp.addView(gameView);
 
         multiplierTextView =(TextView)findViewById(R.id.multiplier);
         multiplierTextView.setTypeface(typeFace);
+
 
     }
 

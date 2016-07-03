@@ -48,6 +48,8 @@ public class BoardUI {
     private int tailleOmbre = 8;
     private int colorLine;
 
+    private ArrayList<ArrayList<Case>> caseBoard;
+
     BoardUI(GameBoard gameBoard, int width, int height,Context c){
         this.board = gameBoard;
         boardUI = new ArrayList<>();
@@ -74,6 +76,15 @@ public class BoardUI {
                 //tst
             }
         }
+
+        caseBoard = new ArrayList<ArrayList<Case>>();
+        for(int i=0;i< tmp.size();i++){
+            caseBoard.add(new ArrayList<Case>());
+            for(int j=0;j<tmp.get(0).size();j++){
+                caseBoard.get(i).add(new Case(i,j, boardUI.get(i).get(j)));
+            }
+        }
+
 
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -110,7 +121,7 @@ public class BoardUI {
             }
             if(i%4==1){
                 d.setColorFilter(new
-                        PorterDuffColorFilter(Color.argb(255,253,51,59), PorterDuff.Mode.SRC_ATOP));
+                        PorterDuffColorFilter(Color.argb(255,253,51,89), PorterDuff.Mode.SRC_ATOP));
             }
             if(i%4==2){
                 d.setColorFilter(new
@@ -155,13 +166,15 @@ public class BoardUI {
     public void drawBoard(Canvas c){
         paint.setColor(col);
         for(int i=0;i< boardUI.size();i++) {
-            for (int j = 0; j < boardUI.get(0).size(); j++) {
+                for (int j = 0; j < boardUI.get(0).size(); j++) {
                 c.drawRoundRect(
                         boardUI.get(i).get(j), // rect
                         cornersRadius, // rx
                         cornersRadius, // ry
                         paint // Paint
                 );
+
+
             }
         }
 
@@ -215,33 +228,43 @@ public class BoardUI {
         http://stackoverflow.com/questions/17225374/rounding-only-one-image-corner-not-all-four
          */
         //top left
-        tmpD = combinaisons.get(0);
+        for(int i=0;i< boardUI.size();i++) {
+            for (int j = 0; j < boardUI.get(0).size(); j++) {
+                drawCase(caseBoard.get(i).get(j),c);
+            }
+        }
+
+    }
+
+    private void drawCase(Case aCase,Canvas c) {
+        RectF rect = aCase.getRectangle();
+        tmpD = combinaisons.get(aCase.getCol1());
         tmpD.setBounds((int)rect.left, (int)rect.top, (int)rect.centerX(), (int)rect.centerY());
         tmpD.draw(c);
 
         //top right
-        tmpD = combinaisons.get(7);
+        tmpD = combinaisons.get(aCase.getCol2()+4);
         tmpD.setBounds((int)rect.centerX(), (int)rect.top, (int)rect.right, (int)rect.centerY());
         tmpD.draw(c);
 
 
         //bottom right2
-        tmpD = combinaisons.get(19);
+        tmpD = combinaisons.get(aCase.getCol4()+16);
         tmpD.setBounds((int)rect.centerX(), (int)rect.centerY(), (int)rect.right, (int)rect.bottom);
         tmpD.draw(c);
 
         //bottom left2
-        tmpD = combinaisons.get(20);
+        tmpD = combinaisons.get(aCase.getCol3()+20);
         tmpD.setBounds((int)rect.left, (int)rect.centerY(), (int)rect.centerX(), (int)rect.bottom);
         tmpD.draw(c);
 
         //bottom right
-        tmpD = combinaisons.get(11);
+        tmpD = combinaisons.get(aCase.getCol4()+8);
         tmpD.setBounds((int)rect.centerX(), (int)rect.centerY(), (int)rect.right, (int)rect.bottom-tailleOmbre);
         tmpD.draw(c);
 
         //bottom left
-        tmpD = combinaisons.get(12);
+        tmpD = combinaisons.get(aCase.getCol3()+12);
         tmpD.setBounds((int)rect.left, (int)rect.centerY(), (int)rect.centerX(), (int)rect.bottom-tailleOmbre);
         tmpD.draw(c);
 
