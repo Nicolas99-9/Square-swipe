@@ -228,11 +228,14 @@ public class BoardUI {
         http://stackoverflow.com/questions/17225374/rounding-only-one-image-corner-not-all-four
          */
         //top left
+
         for(int i=0;i< boardUI.size();i++) {
             for (int j = 0; j < boardUI.get(0).size(); j++) {
                 drawCase(caseBoard.get(i).get(j),c);
             }
         }
+        
+
 
     }
 
@@ -281,6 +284,11 @@ public class BoardUI {
                         if(positionsClick.get(positionsClick.size()-1).first != i || positionsClick.get(positionsClick.size()-1).second != j ){
                             positionsClick.add(new Pair<Integer, Integer>(i,j));
                         }
+
+                        /*if(Math.abs(positionsClick.get(positionsClick.size()-1).first-i) + Math.abs(positionsClick.get(positionsClick.size()-1).second-j)==1 ){
+                            positionsClick.add(new Pair<Integer, Integer>(i,j));
+                        }
+                        */
                     }
                 }
             }

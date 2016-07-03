@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
+import android.os.Debug;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -71,6 +72,18 @@ public class gameView extends SurfaceView implements Runnable {
             if (timeThisFrame > 0) {
                 fps = 1000 / timeThisFrame;
             }
+
+            /*try {
+                gameThread.sleep(15);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            */
+            /*try {
+                Thread.sleep(16);
+            } catch (InterruptedException e) {} //ignore
+            Log.v("FPS",""+fps);
+            */
         }
     }
     public void update() {
@@ -125,11 +138,10 @@ public class gameView extends SurfaceView implements Runnable {
 
             // Player has touched the screen
             case MotionEvent.ACTION_DOWN:
-                Log.v("MORION DOWN","DOWN");
                 boardUI.checkCollision(motionEvent.getX(),motionEvent.getY());
                 break;
             case MotionEvent.ACTION_MOVE:
-                //Log.v("MORION DOWN","MOVE");
+                //Log.v("MORION DOWN","MOVE" + motionEvent.getEventTime());
                 boardUI.checkCollision(motionEvent.getX(),motionEvent.getY());
                 break;
 
@@ -138,6 +150,13 @@ public class gameView extends SurfaceView implements Runnable {
                 boardUI.reloadPositionClick();
                 break;
         }
+
+        /*try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        */
         return true;
 
         /*       switch (action) {
