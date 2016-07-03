@@ -34,6 +34,7 @@ public class gameView extends SurfaceView implements Runnable {
     private long timeThisFrame;
 
     private Canvas canvas;
+    private double lastFrame;
     public gameView(Activity context) {
         super(context.getApplicationContext());
 
@@ -55,6 +56,7 @@ public class gameView extends SurfaceView implements Runnable {
         paint = new Paint();
         paint.setAntiAlias(true);
         playing = true;
+        lastFrame = System.currentTimeMillis();
     }
 
     @Override
@@ -66,7 +68,14 @@ public class gameView extends SurfaceView implements Runnable {
                 canvas = ourHolder.lockCanvas();
                 drawGame(canvas);
                 ourHolder.unlockCanvasAndPost(canvas);
+
             }
+
+            // Pour dessiner à 50 fps
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {}
+
 
             timeThisFrame = System.currentTimeMillis() - startFrameTime;
             if (timeThisFrame > 0) {
@@ -133,7 +142,6 @@ public class gameView extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
             // Player has touched the screen

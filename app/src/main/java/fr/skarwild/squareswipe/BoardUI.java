@@ -49,6 +49,7 @@ public class BoardUI {
     private int colorLine;
 
     private ArrayList<ArrayList<Case>> caseBoard;
+    private Pair<Integer, Integer> last;
 
     BoardUI(GameBoard gameBoard, int width, int height,Context c){
         this.board = gameBoard;
@@ -234,7 +235,7 @@ public class BoardUI {
                 drawCase(caseBoard.get(i).get(j),c);
             }
         }
-        
+
 
 
     }
@@ -274,25 +275,80 @@ public class BoardUI {
     }
 
     public void checkCollision(float x, float y) {
+
         for(int i=0;i< boardUI.size();i++) {
             for (int j = 0; j < boardUI.get(0).size(); j++) {
-                if(boardUI.get(i).get(j).contains(x,y)){
-                    if(positionsClick.size()==0){
-                        positionsClick.add(new Pair<Integer, Integer>(i,j));
-                    }
-                    else{
-                        if(positionsClick.get(positionsClick.size()-1).first != i || positionsClick.get(positionsClick.size()-1).second != j ){
-                            positionsClick.add(new Pair<Integer, Integer>(i,j));
+                if (boardUI.get(i).get(j).contains(x, y)) {
+                    if (positionsClick.size() == 0) {
+                        positionsClick.add(new Pair<Integer, Integer>(i, j));
+                        last = positionsClick.get(positionsClick.size() - 1);
+                        return;
+                    } else {
+                        if ((last.first != i || last.second != j)) {
+                           /* if(Math.abs(positionsClick.get(positionsClick.size() - 1).first-i) + Math.abs(positionsClick.get(positionsClick.size() - 1).second-j)==1){
+                                positionsClick.add(new Pair<Integer, Integer>(i, j));
+                                return;
+                            }
+                            */
+                            positionsClick.add(new Pair<Integer, Integer>(i, j));
+                            return;
+                           /* if(Math.abs(positionsClick.get(positionsClick.size()-1).first-i) + Math.abs(positionsClick.get(positionsClick.size()-1).second-j)==1 ){
+                                positionsClick.add(new Pair<Integer, Integer>(i, j));
+                                return;
+                            }
+                            */
+
+
                         }
 
                         /*if(Math.abs(positionsClick.get(positionsClick.size()-1).first-i) + Math.abs(positionsClick.get(positionsClick.size()-1).second-j)==1 ){
                             positionsClick.add(new Pair<Integer, Integer>(i,j));
                         }
                         */
+
                     }
                 }
             }
         }
+
+       /* if(positionsClick.size()==0) {
+            for (int i = 0; i < boardUI.size(); i++) {
+                for (int j = 0; j < boardUI.get(0).size(); j++) {
+                    if (boardUI.get(i).get(j).contains(x, y)) {
+                        positionsClick.add(new Pair<Integer, Integer>(i, j));
+                        return;
+                    }
+                }
+            }
+        }
+        else{
+            last = positionsClick.get(positionsClick.size()-1);
+            if(last.first > 0){
+                if(boardUI.get(last.first-1).get(last.second).contains(x, y)){
+                    positionsClick.add(new Pair<Integer, Integer>(last.first-1, last.second));
+                    return;
+                }
+            }
+            if(last.first < 6){
+                if(boardUI.get(last.first+1).get(last.second).contains(x, y)){
+                    positionsClick.add(new Pair<Integer, Integer>(last.first+1, last.second));
+                    return;
+                }
+            }
+            if(last.second > 0){
+                if(boardUI.get(last.first).get(last.second-1).contains(x, y)){
+                    positionsClick.add(new Pair<Integer, Integer>(last.first, last.second-1));
+                    return;
+                }
+            }
+            if(last.second < 6){
+                if(boardUI.get(last.first).get(last.second+1).contains(x, y)){
+                    positionsClick.add(new Pair<Integer, Integer>(last.first, last.second+1));
+                    return;
+                }
+            }
+        }
+        */
     }
 
     public void reloadPositionClick(){
