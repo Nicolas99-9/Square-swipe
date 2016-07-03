@@ -39,9 +39,14 @@ public class BoardUI {
     private RectF tmpDrawHalf;
 
     private ArrayList<Pair<Integer,Integer>> positionsClick;
+
+    private ArrayList<Drawable> combinaisons;
+
     private Context c;
+    private Drawable tmpD;
 
-
+    private int tailleOmbre = 8;
+    private int colorLine;
 
     BoardUI(GameBoard gameBoard, int width, int height,Context c){
         this.board = gameBoard;
@@ -75,12 +80,75 @@ public class BoardUI {
         col = Color.argb(255,238,238,238);
         paint.setColor(col);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeWidth(10f);
+        paint.setStrokeWidth(15f);
+        colorLine = Color.argb(255,212,195,227);
 
         paintViolet = new Paint();
         paintViolet.setAntiAlias(true);
         paintViolet.setStrokeCap(Paint.Cap.ROUND);
         paintViolet.setColor(Color.argb(255,128,76,169));
+
+        combinaisons = new ArrayList<>();
+        for(int i=0;i<16;i++){
+            int nb = i/4;
+            Drawable d = ContextCompat.getDrawable(this.c, R.drawable.squaretest);
+            if(nb==0){
+                d = ContextCompat.getDrawable(this.c, R.drawable.topleft);
+            }
+            else if(nb==1){
+                d = ContextCompat.getDrawable(this.c, R.drawable.topright);
+            }
+            else if(nb ==2){
+                d = ContextCompat.getDrawable(this.c, R.drawable.bottomright);
+            }
+            else{
+                d = ContextCompat.getDrawable(this.c, R.drawable.bottomleft);
+            }
+            if(i%4==0){
+                d.setColorFilter(new
+                        PorterDuffColorFilter(Color.argb(255,132,202,37), PorterDuff.Mode.SRC_ATOP));
+            }
+            if(i%4==1){
+                d.setColorFilter(new
+                        PorterDuffColorFilter(Color.argb(255,253,51,59), PorterDuff.Mode.SRC_ATOP));
+            }
+            if(i%4==2){
+                d.setColorFilter(new
+                        PorterDuffColorFilter(Color.argb(255,64,145,227), PorterDuff.Mode.SRC_ATOP));
+            }
+            if(i%4==3){
+                d.setColorFilter(new
+                        PorterDuffColorFilter(Color.argb(255,128,76,169), PorterDuff.Mode.SRC_ATOP));
+            }
+            combinaisons.add(d);
+        }
+        for(int i=0;i<8;i++){
+            int nb = i/4;
+            Drawable d;
+            if(nb ==0){
+                d = ContextCompat.getDrawable(this.c, R.drawable.bottomright);
+            }
+            else{
+                d = ContextCompat.getDrawable(this.c, R.drawable.bottomleft);
+            }
+            if(i%4==0){
+                d.setColorFilter(new
+                        PorterDuffColorFilter(Color.argb(255,113,173,32), PorterDuff.Mode.SRC_ATOP));
+            }
+            if(i%4==1){
+                d.setColorFilter(new
+                        PorterDuffColorFilter(Color.argb(255,233,37,78), PorterDuff.Mode.SRC_ATOP));
+            }
+            if(i%4==2){
+                d.setColorFilter(new
+                        PorterDuffColorFilter(Color.argb(255,64,124,227), PorterDuff.Mode.SRC_ATOP));
+            }
+            if(i%4==3){
+                d.setColorFilter(new
+                        PorterDuffColorFilter(Color.argb(255,107,64,142), PorterDuff.Mode.SRC_ATOP));
+            }
+            combinaisons.add(d);
+        }
     }
 
 
@@ -96,8 +164,11 @@ public class BoardUI {
                 );
             }
         }
-        paint.setColor(Color.RED);
-        Log.v("position",""+positionsClick.size());
+
+        drawSquare(boardUI.get(0).get(3),c);
+
+        paint.setColor(colorLine);
+       // Log.v("position",""+positionsClick.size());
         for(int i=1;i<positionsClick.size();i++){
             Pair<Integer, Integer> p1 = positionsClick.get(i-1);
             Pair<Integer, Integer> p2 = positionsClick.get(i);
@@ -108,7 +179,7 @@ public class BoardUI {
         }
 
 
-        drawSquare(boardUI.get(0).get(3),c);
+
     }
 
     public  void drawSquare(RectF rect,Canvas c){
@@ -122,7 +193,9 @@ public class BoardUI {
         );
 
 
+        /*
         Drawable d = ContextCompat.getDrawable(this.c, R.drawable.squaretest);
+
         d.setColorFilter(new
                 PorterDuffColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP));
 
@@ -133,6 +206,7 @@ public class BoardUI {
         d = ContextCompat.getDrawable(this.c, R.drawable.squaretest2);
         d.setBounds((int)rect.centerX(), (int)rect.top, (int)rect.right, (int)rect.bottom);
         d.draw(c);
+        */
 
 
         /*
@@ -140,6 +214,37 @@ public class BoardUI {
         http://stackoverflow.com/questions/1705239/how-should-i-give-images-rounded-corners-in-android
         http://stackoverflow.com/questions/17225374/rounding-only-one-image-corner-not-all-four
          */
+        //top left
+        tmpD = combinaisons.get(0);
+        tmpD.setBounds((int)rect.left, (int)rect.top, (int)rect.centerX(), (int)rect.centerY());
+        tmpD.draw(c);
+
+        //top right
+        tmpD = combinaisons.get(7);
+        tmpD.setBounds((int)rect.centerX(), (int)rect.top, (int)rect.right, (int)rect.centerY());
+        tmpD.draw(c);
+
+
+        //bottom right2
+        tmpD = combinaisons.get(19);
+        tmpD.setBounds((int)rect.centerX(), (int)rect.centerY(), (int)rect.right, (int)rect.bottom);
+        tmpD.draw(c);
+
+        //bottom left2
+        tmpD = combinaisons.get(20);
+        tmpD.setBounds((int)rect.left, (int)rect.centerY(), (int)rect.centerX(), (int)rect.bottom);
+        tmpD.draw(c);
+
+        //bottom right
+        tmpD = combinaisons.get(11);
+        tmpD.setBounds((int)rect.centerX(), (int)rect.centerY(), (int)rect.right, (int)rect.bottom-tailleOmbre);
+        tmpD.draw(c);
+
+        //bottom left
+        tmpD = combinaisons.get(12);
+        tmpD.setBounds((int)rect.left, (int)rect.centerY(), (int)rect.centerX(), (int)rect.bottom-tailleOmbre);
+        tmpD.draw(c);
+
     }
 
     public void checkCollision(float x, float y) {
