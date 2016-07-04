@@ -27,14 +27,29 @@ public class gameView extends SurfaceView implements Runnable {
     private  GameBoard board;
     private BoardUI boardUI;
     // This variable tracks the game frame rate
-    long fps;
     Thread gameThread = null;
 
     // This is used to help calculate the fps
     private long timeThisFrame;
 
+
+
     private Canvas canvas;
     private double lastFrame;
+
+
+    int sleepTime;
+    int numberOfFramesSkipped;
+    int maxFrameSkips;
+    long beginTime;
+    long endTime;
+    long lastTime;
+    int differenceTime;
+    int framePeriod;
+    int frameCount;
+    private float fps = 30f;
+
+
     public gameView(Activity context) {
         super(context.getApplicationContext());
 
@@ -57,31 +72,51 @@ public class gameView extends SurfaceView implements Runnable {
         paint.setAntiAlias(true);
         playing = true;
         lastFrame = System.currentTimeMillis();
+
+        this.framePeriod = (int)(1000/fps);
+        this.maxFrameSkips = 5;
+        lastTime = System.currentTimeMillis();
+        beginTime = System.currentTimeMillis();
     }
 
     @Override
     public void run() {
         while (playing) {
-            long startFrameTime = System.currentTimeMillis();
-            update();
             if (ourHolder.getSurface().isValid()) {
+
+                beginTime = System.currentTimeMillis();
+                update();
                 canvas = ourHolder.lockCanvas();
-                drawGame(canvas);
+                onDraw(canvas);
                 ourHolder.unlockCanvasAndPost(canvas);
 
             }
+            frameCount++;
 
-            // Pour dessiner à 50 fps
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {}
-
-
-            timeThisFrame = System.currentTimeMillis() - startFrameTime;
-            if (timeThisFrame > 0) {
-                fps = 1000 / timeThisFrame;
+            if(lastTime + 1000 < System.currentTimeMillis()) {
+                lastTime = System.currentTimeMillis();
+                frameCount = 0;
             }
 
+            endTime = System.currentTimeMillis();;
+            differenceTime = (int) (endTime - beginTime);
+            sleepTime = (int) (framePeriod - differenceTime);
+
+            if(sleepTime > 0) {
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
+            }
+            else {
+                while(sleepTime < 0 && numberOfFramesSkipped < this.maxFrameSkips) {
+                    update();
+                    update();
+                    sleepTime += framePeriod;
+                    numberOfFramesSkipped++;
+                }
+            }
             /*try {
                 gameThread.sleep(15);
             } catch (InterruptedException e) {
@@ -95,12 +130,14 @@ public class gameView extends SurfaceView implements Runnable {
             */
         }
     }
-    public void update() {
-        int i = 1;
+   public void update()
+    {
+       boardUI.updateGame();
     }
 
 
-    void drawGame(Canvas canvas) {
+    @Override
+    protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         canvas.drawColor(Color.WHITE);
         drawBoard(canvas);
@@ -129,7 +166,6 @@ public class gameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             Log.e("Error:", "joining thread");
         }
-
     }
 
     // If SimpleGameEngine Activity is started theb
@@ -142,7 +178,6 @@ public class gameView extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
             // Player has touched the screen
@@ -153,13 +188,11 @@ public class gameView extends SurfaceView implements Runnable {
                 //Log.v("MORION DOWN","MOVE" + motionEvent.getEventTime());
                 boardUI.checkCollision(motionEvent.getX(),motionEvent.getY());
                 break;
-
             // Player has removed finger from screen
             case MotionEvent.ACTION_UP:
-                boardUI.reloadPositionClick();
+                boardUI.resetXY();
                 break;
         }
-
         /*try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
