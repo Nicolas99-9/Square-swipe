@@ -290,13 +290,17 @@ public class BoardUI {
                                 return;
                             }
                             */
-                            positionsClick.add(new Pair<Integer, Integer>(i, j));
-                            return;
+
                            /* if(Math.abs(positionsClick.get(positionsClick.size()-1).first-i) + Math.abs(positionsClick.get(positionsClick.size()-1).second-j)==1 ){
                                 positionsClick.add(new Pair<Integer, Integer>(i, j));
                                 return;
                             }
                             */
+
+
+                            positionsClick.add(new Pair<Integer, Integer>(i, j));
+                            return;
+
 
 
                         }
@@ -310,6 +314,7 @@ public class BoardUI {
                 }
             }
         }
+
 
        /* if(positionsClick.size()==0) {
             for (int i = 0; i < boardUI.size(); i++) {

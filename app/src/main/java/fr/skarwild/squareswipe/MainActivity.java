@@ -6,8 +6,10 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ public class MainActivity extends Activity
 
         multiplierTextView =(TextView)findViewById(R.id.multiplier);
         multiplierTextView.setTypeface(typeFace);
+
 
 
     }

@@ -142,6 +142,7 @@ public class gameView extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
+
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
             // Player has touched the screen
@@ -160,6 +161,12 @@ public class gameView extends SurfaceView implements Runnable {
         }
 
         /*try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        */
+        /*ùtry {
             Thread.sleep(16);
         } catch (InterruptedException e) {
             e.printStackTrace();
