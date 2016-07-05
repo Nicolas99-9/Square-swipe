@@ -7,6 +7,8 @@ import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -22,6 +24,7 @@ public class MainActivity extends Activity
     private gameView gameView;
     private TextView scoreTextView;
     private TextView multiplierTextView;
+    private float widthSquare;
 
     CustomGrid adapter;
     public static GridView gridview;
@@ -49,11 +52,40 @@ public class MainActivity extends Activity
 
 
         String[] t = new String[7*7];
+
+        float OFFSET = 8f;
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        widthSquare = Math.min(((width - 5*OFFSET-2*50)/7),200);
+
+        float decallageHaut = (height - 7  * (widthSquare + OFFSET))/2f;
         adapter = new CustomGrid(MainActivity.this,t);
         gridview = (GridView) findViewById(R.id.grid_view);
+
+        gridview.setColumnWidth((int)widthSquare);
+        gridview.setPadding(gridview.getLeft(),(int)(decallageHaut),gridview.getRight(),gridview.getBottom());
         gridview.setNumColumns(7);
         gridview.setAdapter(adapter);
 
+
+        gridview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getActionMasked();  // MotionEvent types such as ACTION_UP, ACTION_DOWN
+                float currentXPosition = motionEvent.getX();
+                float currentYPosition = motionEvent.getY();
+                int position = gridview.pointToPosition((int) currentXPosition, (int) currentYPosition);
+
+                // Access text in the cell, or the object itself
+                String s = (String) gridview.getItemAtPosition(position);
+                Log.v("POSITION",position+ " s " + s);
+                return true;
+            }
+        });
 
     }
 

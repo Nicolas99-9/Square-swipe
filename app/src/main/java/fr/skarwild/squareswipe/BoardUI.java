@@ -182,7 +182,7 @@ public class BoardUI {
         }
 
         getPOs();
-        Log.v("IIII",i+" " + j);
+
         if((i==-1) || (j==-1)){
             return;
         }

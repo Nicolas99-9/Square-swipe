@@ -15,18 +15,16 @@
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:numColumns="7"
         android:columnWidth="15px"
-        android:horizontalSpacing="5px"
-        android:verticalSpacing="5px"
+        android:horizontalSpacing="8px"
+        android:verticalSpacing="8px"
         android:gravity="center"
         android:stretchMode="none"
         android:layout_marginLeft="50px"
         android:layout_marginRight="50px"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_above="@+id/linearLayout" />
+        android:layout_centerHorizontal="true" />
 
 
     <RelativeLayout
