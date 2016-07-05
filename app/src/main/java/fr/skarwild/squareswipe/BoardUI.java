@@ -57,6 +57,10 @@ public class BoardUI {
 
     private int count = 0;
 
+    private int i;
+    private int j;
+
+
     BoardUI(GameBoard gameBoard, int width, int height,Context c){
         x= -1;
         y = -1;
@@ -172,19 +176,21 @@ public class BoardUI {
     }
 
     public  void updateGame() {
-
-        if(count >1){
-            Log.v("COUNT ", count+"");
-        }
-        count =0;
         if(x==-1 && y ==-1 ){
             positionsClick.clear();
             return;
         }
-        if(positionsClick.size() == 0){
-            positionsClick.add(new Pair<Integer, Integer>((int)x, (int)y));
+
+        getPOs();
+        Log.v("IIII",i+" " + j);
+        if((i==-1) || (j==-1)){
             return;
         }
+        if(positionsClick.size() == 0){
+            positionsClick.add(new Pair<Integer, Integer>((int)i, (int)j));
+            return;
+        }
+
         /*for (int i = 0; i < boardUI.size(); i++) {
             for (int j = 0; j < boardUI.get(0).size(); j++) {
                 if (boardUI.get(i).get(j).contains(x, y)) {
@@ -206,15 +212,15 @@ public class BoardUI {
         }
         */
 
-        if(Math.abs(positionsClick.get(positionsClick.size()-1).first - x ) + Math.abs(positionsClick.get(positionsClick.size()-1).second -y) == 1){
-            positionsClick.add(new Pair<Integer, Integer>((int)x, (int)y));
+        if(Math.abs(positionsClick.get(positionsClick.size()-1).first - i ) + Math.abs(positionsClick.get(positionsClick.size()-1).second -j) == 1){
+            positionsClick.add(new Pair<Integer, Integer>(i, j));
         }
-       // positionsClick.add(new Pair<Integer, Integer>((int)x, (int)y));
+
     }
 
 
     public void drawBoard(Canvas c){
-        paint.setColor(col);
+      paint.setColor(col);
         for(int i=0;i< boardUI.size();i++) {
                 for (int j = 0; j < boardUI.get(0).size(); j++) {
                 c.drawRoundRect(
@@ -229,6 +235,7 @@ public class BoardUI {
         }
 
         drawSquare(boardUI.get(0).get(3),c);
+
 
         paint.setColor(colorLine);
        // Log.v("position",""+positionsClick.size());
@@ -321,25 +328,8 @@ public class BoardUI {
     }
 
     public void checkCollision(float x, float y) {
-
-        for (int i = 0; i < boardUI.size(); i++) {
-            for (int j = 0; j < boardUI.get(0).size(); j++) {
-                if (boardUI.get(i).get(j).contains(x, y)) {
-                    if (positionsClick.size() == 0) {
-                        this.x = i;
-                        this.y = j;
-                        return;
-                    } else {
-                        if ((positionsClick.get(positionsClick.size()-1).first != i || positionsClick.get(positionsClick.size()-1).second != j)) {
-                            this.x = i;
-                            this.y = j;
-                            count++;
-                            return;
-                        }
-                    }
-                }
-            }
-        }
+        this.x = x;
+        this.y = y;
     }
 
     public void reloadPositionClick(){
@@ -349,5 +339,27 @@ public class BoardUI {
     public void resetXY(){
         x = -1;
         y = -1;
+    }
+
+    public void getPOs() {
+        for (int i = 0; i < boardUI.size(); i++) {
+            for (int j = 0; j < boardUI.get(0).size(); j++) {
+                if (boardUI.get(i).get(j).contains(x, y)) {
+                    if (positionsClick.size() == 0) {
+                        this.i = i;
+                        this.j = j;
+                        return;
+                    } else {
+                        if ((positionsClick.get(positionsClick.size()-1).first != i || positionsClick.get(positionsClick.size()-1).second != j)) {
+                            this.i = i;
+                            this.j = j;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        i =-1;
+        j =-1;
     }
 }

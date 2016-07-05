@@ -1,6 +1,8 @@
 package fr.skarwild.squareswipe;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +22,9 @@ public class MainActivity extends Activity
     private gameView gameView;
     private TextView scoreTextView;
     private TextView multiplierTextView;
+
+    CustomGrid adapter;
+    public static GridView gridview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,13 @@ public class MainActivity extends Activity
         multiplierTextView =(TextView)findViewById(R.id.multiplier);
         multiplierTextView.setTypeface(typeFace);
 
+
+
+        String[] t = new String[7*7];
+        adapter = new CustomGrid(MainActivity.this,t);
+        gridview = (GridView) findViewById(R.id.grid_view);
+        gridview.setNumColumns(7);
+        gridview.setAdapter(adapter);
 
 
     }

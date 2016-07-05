@@ -21,7 +21,6 @@ import android.view.SurfaceView;
  */
 public class gameView extends SurfaceView implements Runnable {
     private SurfaceHolder ourHolder;
-    private Paint paint;
     private boolean playing;
 
     private  GameBoard board;
@@ -49,6 +48,7 @@ public class gameView extends SurfaceView implements Runnable {
     int frameCount;
     private float fps = 30f;
 
+    private long lastUpdate;
 
     public gameView(Activity context) {
         super(context.getApplicationContext());
@@ -68,8 +68,6 @@ public class gameView extends SurfaceView implements Runnable {
         // Initialize ourHolder and paint objects
         ourHolder = getHolder();
         //ourHolder.setFormat(PixelFormat.TRANSLUCENT);
-        paint = new Paint();
-        paint.setAntiAlias(true);
         playing = true;
         lastFrame = System.currentTimeMillis();
 
@@ -77,17 +75,18 @@ public class gameView extends SurfaceView implements Runnable {
         this.maxFrameSkips = 5;
         lastTime = System.currentTimeMillis();
         beginTime = System.currentTimeMillis();
+
+        lastUpdate =  System.currentTimeMillis();
     }
 
     @Override
     public void run() {
         while (playing) {
             if (ourHolder.getSurface().isValid()) {
-
                 beginTime = System.currentTimeMillis();
-                update();
+                updateS();
                 canvas = ourHolder.lockCanvas();
-                onDraw(canvas);
+                Draw(canvas);
                 ourHolder.unlockCanvasAndPost(canvas);
 
             }
@@ -111,8 +110,7 @@ public class gameView extends SurfaceView implements Runnable {
             }
             else {
                 while(sleepTime < 0 && numberOfFramesSkipped < this.maxFrameSkips) {
-                    update();
-                    update();
+                    updateS();
                     sleepTime += framePeriod;
                     numberOfFramesSkipped++;
                 }
@@ -130,14 +128,13 @@ public class gameView extends SurfaceView implements Runnable {
             */
         }
     }
-   public void update()
+   public void updateS()
     {
        boardUI.updateGame();
     }
 
 
-    @Override
-    protected void onDraw(Canvas canvas) {
+    protected void Draw(Canvas canvas) {
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         canvas.drawColor(Color.WHITE);
         drawBoard(canvas);
@@ -145,18 +142,6 @@ public class gameView extends SurfaceView implements Runnable {
     }
 
     void drawBoard(Canvas c){
-        paint.setColor(Color.RED);
-        RectF rect = new RectF(50,20,100,40);
-        int cornersRadius = 25;
-
-        // Finally, draw the rounded corners rectangle object on the canvas
-       /* c.drawRoundRect(
-                rect, // rect
-                cornersRadius, // rx
-                cornersRadius, // ry
-                paint // Paint
-        );
-        */
         boardUI.drawBoard(c);
     }
     public void pause() {
@@ -185,6 +170,13 @@ public class gameView extends SurfaceView implements Runnable {
                 boardUI.checkCollision(motionEvent.getX(),motionEvent.getY());
                 break;
             case MotionEvent.ACTION_MOVE:
+
+                /*try {
+                    Thread.sleep(16);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                */
                 //Log.v("MORION DOWN","MOVE" + motionEvent.getEventTime());
                 boardUI.checkCollision(motionEvent.getX(),motionEvent.getY());
                 break;
@@ -193,12 +185,12 @@ public class gameView extends SurfaceView implements Runnable {
                 boardUI.resetXY();
                 break;
         }
-        /*try {
+        try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        */
+
         /*ùtry {
             Thread.sleep(16);
         } catch (InterruptedException e) {

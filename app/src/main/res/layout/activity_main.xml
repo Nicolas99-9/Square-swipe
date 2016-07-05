@@ -11,11 +11,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/surfaceViewMain"/>
+
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="7"
+        android:columnWidth="15px"
+        android:horizontalSpacing="5px"
+        android:verticalSpacing="5px"
+        android:gravity="center"
+        android:stretchMode="none"
+        android:layout_marginLeft="50px"
+        android:layout_marginRight="50px"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_above="@+id/linearLayout" />
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="30dp"
-        android:background="#6cb5e0">
+        android:background="#6cb5e0"
+        android:id="@+id/relativeLayout">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +64,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
