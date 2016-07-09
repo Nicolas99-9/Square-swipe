@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:src="@drawable/square"
+
+        />
+
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,11 +30,13 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:src="@drawable/topleft"
+            android:id="@+id/topLeft"
             android:layout_weight="0.5"/>
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
+            android:id="@+id/topRight"
             android:src="@drawable/topright"
             android:layout_weight="0.5"/>
     </LinearLayout>
@@ -30,17 +47,68 @@
         android:orientation="horizontal"
         android:layout_weight="0.5">
 
-        <ImageView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:src="@drawable/bottomleft"
-            android:layout_weight="0.5"/>
-        <ImageView
-            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.5">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:id="@+id/bottomLeft"
+                    android:src="@drawable/bottomleft"
+
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/bottomleft"
+                    android:id="@+id/bottomLeft2"
+                    android:paddingBottom="8px"
+
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:src="@drawable/bottomright"
-            android:layout_weight="0.5"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_weight="0.5">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/bottomright"
+                    android:id="@+id/bottomRight"
+
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/bottomright"
+                    android:paddingBottom="8px"
+                    android:id="@+id/bottomRight2"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+        </LinearLayout>
+
 </LinearLayout>
+
+</RelativeLayout>

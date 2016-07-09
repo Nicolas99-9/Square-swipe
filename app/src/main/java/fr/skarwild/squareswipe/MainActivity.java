@@ -63,7 +63,8 @@ public class MainActivity extends Activity
         widthSquare = Math.min(((width - 5*OFFSET-2*50)/7),200);
 
         float decallageHaut = (height - 7  * (widthSquare + OFFSET))/2f;
-        adapter = new CustomGrid(MainActivity.this,t);
+        GameBoard g = new GameBoard(7,7);
+        adapter = new CustomGrid(MainActivity.this,t,g);
         gridview = (GridView) findViewById(R.id.grid_view);
 
         gridview.setColumnWidth((int)widthSquare);

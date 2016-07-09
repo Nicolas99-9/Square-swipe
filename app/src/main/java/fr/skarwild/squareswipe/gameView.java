@@ -137,7 +137,7 @@ public class gameView extends SurfaceView implements Runnable {
     protected void Draw(Canvas canvas) {
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         canvas.drawColor(Color.WHITE);
-        drawBoard(canvas);
+       //drawBoard(canvas);
 
     }
 

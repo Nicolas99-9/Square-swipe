@@ -28,8 +28,6 @@ public class GameBoard {
         debugShow();
         multiplier = 1.0f;
         score = 0;
-
-
     }
 
     public  void debugShow(){
