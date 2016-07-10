@@ -8,6 +8,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class CustomGrid extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return values[i];
+        return i+"";
     }
 
     @Override

@@ -1,10 +1,12 @@
 package fr.skarwild.squareswipe;
 
 import android.app.Activity;
+import android.app.IntentService;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -21,17 +23,17 @@ import android.widget.TextView;
 public class MainActivity extends Activity
 {
 
-    private gameView gameView;
     private TextView scoreTextView;
     private TextView multiplierTextView;
     private float widthSquare;
 
     CustomGrid adapter;
     public static GridView gridview;
+    private CustomView gameView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gameView = new gameView(this);
+       // gameView = new gameView(this);
         setContentView(R.layout.activity_main);
 
 
@@ -44,7 +46,7 @@ public class MainActivity extends Activity
         /*SurfaceHolder sfhTrack = gameView.getHolder();
         sfhTrack.setFormat(PixelFormat.TRANSLUCENT);
         */
-        tmp.addView(gameView);
+        //tmp.addView(gameView);
 
         multiplierTextView =(TextView)findViewById(R.id.multiplier);
         multiplierTextView.setTypeface(typeFace);
@@ -72,6 +74,30 @@ public class MainActivity extends Activity
         gridview.setNumColumns(7);
         gridview.setAdapter(adapter);
 
+        gameView = (CustomView) findViewById(R.id.gameview);
+        gameView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_DOWN:
+                        checkCollisions(motionEvent.getX(),motionEvent.getY());
+                        gameView.invalidate();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        checkCollisions(motionEvent.getX(),motionEvent.getY());
+                       // gameView.invalidate();
+                        break;
+                    // Player has removed finger from screen
+                    case MotionEvent.ACTION_UP:
+                        gameView.clear();
+                        gameView.invalidate();
+                        break;
+                }
+                return true;
+            }
+        });
+
+
 
         gridview.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -80,13 +106,24 @@ public class MainActivity extends Activity
                 float currentXPosition = motionEvent.getX();
                 float currentYPosition = motionEvent.getY();
                 int position = gridview.pointToPosition((int) currentXPosition, (int) currentYPosition);
-
                 // Access text in the cell, or the object itself
                 String s = (String) gridview.getItemAtPosition(position);
                 Log.v("POSITION",position+ " s " + s);
+
                 return true;
             }
         });
+
+    }
+
+    private void checkCollisions(float y, float y1) {
+        int position = gridview.pointToPosition((int)y, (int)y1);
+        String s = (String) gridview.getItemAtPosition(position);
+        if(s != null){
+            int t = Integer.parseInt(s);
+            gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(t%7),(t/7));
+        }
+
 
     }
 
@@ -96,7 +133,7 @@ public class MainActivity extends Activity
         super.onResume();
 
         // Tell the gameView resume method to execute
-        gameView.resume();
+        //gameView.resume();
     }
 
     // This method executes when the player quits the game
@@ -105,6 +142,6 @@ public class MainActivity extends Activity
         super.onPause();
 
         // Tell the gameView pause method to execute
-        gameView.pause();
+        //gameView.pause();
     }
 }
