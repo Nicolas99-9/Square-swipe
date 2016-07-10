@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.os.Debug;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -30,6 +31,9 @@ public class MainActivity extends Activity
     CustomGrid adapter;
     public static GridView gridview;
     private CustomView gameView;
+    private int position;
+    private int t;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +89,8 @@ public class MainActivity extends Activity
                         break;
                     case MotionEvent.ACTION_MOVE:
                         checkCollisions(motionEvent.getX(),motionEvent.getY());
-                       // gameView.invalidate();
+
+                        // gameView.invalidate();
                         break;
                     // Player has removed finger from screen
                     case MotionEvent.ACTION_UP:
@@ -117,15 +122,19 @@ public class MainActivity extends Activity
     }
 
     private void checkCollisions(float y, float y1) {
-        int position = gridview.pointToPosition((int)y, (int)y1);
+        position = gridview.pointToPosition((int)y, (int)y1);
         String s = (String) gridview.getItemAtPosition(position);
-        if(s != null){
-            int t = Integer.parseInt(s);
-            gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(t%7),(t/7));
+        if(s != null) {
+            t = Integer.parseInt(s);
+            new Handler().post(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(t%7),(t/7));
+                                   }
+                               });
+
         }
-
-
-    }
+        }
 
     // This method executes when the player starts the game
     @Override

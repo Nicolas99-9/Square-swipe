@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Debug;
+import android.os.IBinder;
+import android.support.annotation.MainThread;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
@@ -66,24 +68,23 @@ public class CustomView extends View {
     }
 
     public void addInToList(View childAt,int posX, int posY) {
-        Log.v("size",childAt.getTop()-childAt.getHeight()/2+"");
-        if(childAt!=null){
-            int[] result = new int[2];
-            childAt.getLocationOnScreen(result);
+
+        Log.v("LASTX ", lastX + " last y " + lastY);
             if(positionsClick.size()==0){
                 lastX = posX;
                 lastY = posY;
             }
-            else if(lastX != posX || lastY!=posY){
+            else{
+
+                if(Math.abs(lastX - posX) + Math.abs(lastY - posY) != 1){
+                    return;
+                }
                 lastX = posX;
                 lastY = posY;
             }
-            else{
-                return;
-            }
-
+            int[] result = new int[2];
+            childAt.getLocationOnScreen(result);
             positionsClick.add(new Pair<Integer, Integer>(result[0]+childAt.getWidth()/2 ,result[1]));
             invalidate();
-        }
     }
 }
