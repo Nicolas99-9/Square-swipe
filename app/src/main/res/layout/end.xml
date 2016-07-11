@@ -31,12 +31,91 @@
         android:src="@drawable/endr"
         android:layout_centerInParent="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score:"
+        android:textColor="#000000"
+        android:layout_alignTop="@+id/reloadEnd"
+        android:layout_alignRight="@+id/reloadEnd"
+        android:layout_alignEnd="@+id/reloadEnd"
+        android:id="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:text="125"
+        android:id="@+id/score"
+        android:textColor="#84ca25"
+        android:layout_alignRight="@id/textView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Multiplier:"
+        android:textColor="#000000"
+        android:layout_above="@+id/reloadEnd"
+        android:layout_alignLeft="@+id/reloadEnd"
+        android:layout_alignStart="@+id/reloadEnd"
+        android:id="@+id/textView3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:text="12"
+        android:id="@+id/multi"
+        android:textColor="#fd3359"
+        android:layout_alignLeft="@id/textView3"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number games:"
+        android:textColor="#000000"
+        android:layout_below="@+id/reloadEnd"
+        android:layout_alignRight="@+id/linearLayout2"
+        android:layout_alignEnd="@+id/linearLayout2"
+        android:id="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:text="12"
+        android:id="@+id/number"
+        android:textColor="#804ca9"
+        android:layout_alignLeft="@id/textView2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Best multiplier:"
+        android:textColor="#000000"
+        android:id="@+id/textView4"
+        android:layout_alignBottom="@+id/reloadEnd"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3"
+        android:layout_marginRight="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:text="15552"
+        android:id="@+id/best"
+        android:textColor="#4091e3"
+        android:layout_alignRight="@id/textView4"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2">
+
+
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
