@@ -66,7 +66,7 @@ public class BoardUI {
         y = -1;
         this.board = gameBoard;
         boardUI = new ArrayList<>();
-        ArrayList<ArrayList<GameBoard.actuel>> tmp = gameBoard.getBoard();
+        ArrayList<ArrayList<Square>> tmp = gameBoard.getBoard();
         positionsClick = new ArrayList<>();
 
         this.width = width;

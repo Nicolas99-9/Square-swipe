@@ -84,12 +84,12 @@ public class MainActivity extends Activity
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
-                        checkCollisions(motionEvent.getX(),motionEvent.getY());
+                        /*checkCollisions(motionEvent.getX(),motionEvent.getY());
                         gameView.invalidate();
+                        */
                         break;
                     case MotionEvent.ACTION_MOVE:
                         checkCollisions(motionEvent.getX(),motionEvent.getY());
-
                         // gameView.invalidate();
                         break;
                     // Player has removed finger from screen
@@ -126,14 +126,10 @@ public class MainActivity extends Activity
         String s = (String) gridview.getItemAtPosition(position);
         if(s != null) {
             t = Integer.parseInt(s);
-            new Handler().post(new Runnable() {
-                                   @Override
-                                   public void run() {
-                                       gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(t%7),(t/7));
-                                   }
-                               });
+            gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(t%7),(t/7));
 
-        }
+
+                 }
         }
 
     // This method executes when the player starts the game

@@ -53,13 +53,12 @@ public class CustomView extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // Log.v("position",""+positionsClick.size());
         for(int i=1;i<positionsClick.size();i++){
             Pair<Integer, Integer> p1 = positionsClick.get(i-1);
             Pair<Integer, Integer> p2 = positionsClick.get(i);
             canvas.drawLine(p1.first,p1.second,p2.first,p2.second,paint);
-        }
 
+        }
 
     }
 
@@ -68,15 +67,12 @@ public class CustomView extends View {
     }
 
     public void addInToList(View childAt,int posX, int posY) {
-
-        Log.v("LASTX ", lastX + " last y " + lastY);
             if(positionsClick.size()==0){
                 lastX = posX;
                 lastY = posY;
             }
             else{
-
-                if(Math.abs(lastX - posX) + Math.abs(lastY - posY) != 1){
+                if((Math.abs(lastX - posX) + Math.abs(lastY - posY)) != 1){
                     return;
                 }
                 lastX = posX;

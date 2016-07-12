@@ -10,18 +10,19 @@ import java.util.ArrayList;
 public class GameBoard {
     //premiere valeur : haut gauche, haut droite, bas droite, bas gauche
     //R : rose , B : bleu , V : vert , O : violet
-    public  enum actuel {Vide,Bleu,Vert,Violet}
 
-    private ArrayList<ArrayList<actuel>> board;
+
+    private ArrayList<ArrayList<Square>> board;
     private int score;
     private float multiplier;
+
 
     public GameBoard(int lignes, int colonnes){
         board = new ArrayList<>();
         for(int i=0;i< lignes;i++){
-            board.add(new ArrayList<actuel>());
+            board.add(new ArrayList<Square>());
             for(int j=0;j<colonnes;j++){
-                board.get(i).add(actuel.Vide);
+                board.get(i).add(new Square(Square.actuel.Vide,Square.actuel.Vide,Square.actuel.Vide,Square.actuel.Vide));
             }
         }
 
@@ -40,7 +41,7 @@ public class GameBoard {
             Log.v("board debug " , buffer);
         }
     }
-    public  ArrayList<ArrayList<actuel>> getBoard(){
+    public  ArrayList<ArrayList<Square>> getBoard(){
         return board;
     }
 }
