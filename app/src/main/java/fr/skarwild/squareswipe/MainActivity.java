@@ -20,6 +20,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,6 +41,7 @@ public class MainActivity extends Activity
 
     private int score;
     private float multi;
+    private boolean running  = false;
     private CountDownTimer Counter1;
 
     @Override
@@ -87,6 +90,16 @@ public class MainActivity extends Activity
         gridview.setNumColumns(7);
         gridview.setAdapter(adapter);
 
+
+        BaseGrid adapter2 = new BaseGrid(MainActivity.this,t,g);
+        GridView gridview2 = (GridView) findViewById(R.id.grid_viewSimple);
+
+        gridview2.setColumnWidth((int)widthSquare);
+        gridview2.setPadding(gridview.getLeft(),(int)(decallageHaut),gridview.getRight(),gridview.getBottom());
+        gridview2.setNumColumns(7);
+        gridview2.setAdapter(adapter2);
+
+
         gameView = (CustomView) findViewById(R.id.gameview);
         gameView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -129,21 +142,29 @@ public class MainActivity extends Activity
             }
         });
 
-        Counter1 = new CountDownTimer(2000 , 500) {
+        Counter1 = new CountDownTimer(120000 , 500) {
             public void onTick(long millisUntilFinished) {
+                running = true;
                 multi -= Math.log(multi)/4f;
-                if(multi<=0f){
+                if(multi<=1f){
                     multi = 1.0f;
+                    multiplierTextView.setText("x " +String.format("%.2f", multi));
+                    Counter1.cancel();
+                    running = false;
+                    return;
                 }
 
                 multiplierTextView.setText("x " +String.format("%.2f", multi));
             }
 
             public void onFinish() {
+                running = false;
                 Counter1.start();
             }
         };
         Counter1.start();
+
+
 
     }
 
@@ -159,6 +180,10 @@ public class MainActivity extends Activity
         multi += Math.log(taille)/3f;
         scoreTextView.setText("Score : " + score);
         multiplierTextView.setText("x " +String.format("%.2f", multi));
+        if(multi > 1.0f && !running){
+            Counter1.cancel();
+            Counter1.start();
+        }
     }
 
 
@@ -170,6 +195,23 @@ public class MainActivity extends Activity
             t = Integer.parseInt(s);
             gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(t%7),(t/7));
 
+            /*Animation an = new RotateAnimation(0.0f, 360.0f, 0, 0);
+
+            // Set the animation's parameters
+            an.setDuration(10000);               // duration in ms
+            an.setRepeatCount(0);                // -1 = infinite repeated
+            an.setRepeatMode(Animation.REVERSE); // reverses each repeat
+            an.setFillAfter(true);               // keep rotation after animation
+
+            View v = gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position))));
+
+            if(v==null){
+                Log.v("VIew is null","null");
+            }
+            else{
+                v.startAnimation(an);
+            }
+            */
 
                  }
         }

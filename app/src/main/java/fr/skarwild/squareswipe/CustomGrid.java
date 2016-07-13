@@ -156,8 +156,7 @@ public class CustomGrid extends BaseAdapter {
 
 
 
-        //top left
-        Log.v("ORDINAL ", tmpS.topGauche.ordinal()+"");
+        //top le
         ImageView t = (ImageView) convertView.findViewById(R.id.topLeft);
         t.setImageDrawable(combinaisons.get(game.getBoard().get(y).get(x).topGauche.ordinal()));
 
