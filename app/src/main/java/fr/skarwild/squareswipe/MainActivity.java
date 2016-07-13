@@ -6,11 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
+import android.icu.text.DecimalFormat;
+import android.os.CountDownTimer;
 import android.os.Debug;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.FloatProperty;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -34,11 +37,17 @@ public class MainActivity extends Activity
     private int position;
     private int t;
 
+    private int score;
+    private float multi;
+    private CountDownTimer Counter1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // gameView = new gameView(this);
         setContentView(R.layout.activity_main);
+
+        initGameVariables();
 
 
 
@@ -94,6 +103,7 @@ public class MainActivity extends Activity
                         break;
                     // Player has removed finger from screen
                     case MotionEvent.ACTION_UP:
+                        updateScore();
                         gameView.clear();
                         gameView.invalidate();
                         break;
@@ -119,7 +129,39 @@ public class MainActivity extends Activity
             }
         });
 
+        Counter1 = new CountDownTimer(2000 , 500) {
+            public void onTick(long millisUntilFinished) {
+                multi -= Math.log(multi)/4f;
+                if(multi<=0f){
+                    multi = 1.0f;
+                }
+
+                multiplierTextView.setText("x " +String.format("%.2f", multi));
+            }
+
+            public void onFinish() {
+                Counter1.start();
+            }
+        };
+        Counter1.start();
+
     }
+
+    private void initGameVariables() {
+        score = 0;
+        multi = 1.0f;
+    }
+
+    private void updateScore() {
+        int taille = gameView.getSize();
+        float newScore = taille * multi;
+        score += newScore;
+        multi += Math.log(taille)/3f;
+        scoreTextView.setText("Score : " + score);
+        multiplierTextView.setText("x " +String.format("%.2f", multi));
+    }
+
+
 
     private void checkCollisions(float y, float y1) {
         position = gridview.pointToPosition((int)y, (int)y1);

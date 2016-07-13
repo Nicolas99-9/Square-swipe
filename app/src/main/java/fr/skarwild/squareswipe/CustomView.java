@@ -57,7 +57,6 @@ public class CustomView extends View {
             Pair<Integer, Integer> p1 = positionsClick.get(i-1);
             Pair<Integer, Integer> p2 = positionsClick.get(i);
             canvas.drawLine(p1.first,p1.second,p2.first,p2.second,paint);
-
         }
 
     }
@@ -82,5 +81,9 @@ public class CustomView extends View {
             childAt.getLocationOnScreen(result);
             positionsClick.add(new Pair<Integer, Integer>(result[0]+childAt.getWidth()/2 ,result[1]));
             invalidate();
+    }
+
+    public int getSize() {
+        return positionsClick.size();
     }
 }
