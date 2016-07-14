@@ -106,9 +106,7 @@ public class MainActivity extends Activity
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
-                        /*checkCollisions(motionEvent.getX(),motionEvent.getY());
-                        gameView.invalidate();
-                        */
+                        checkCollisions(motionEvent.getX(),motionEvent.getY());
                         break;
                     case MotionEvent.ACTION_MOVE:
                         checkCollisions(motionEvent.getX(),motionEvent.getY());
@@ -127,7 +125,7 @@ public class MainActivity extends Activity
 
 
 
-        gridview.setOnTouchListener(new View.OnTouchListener() {
+       /* gridview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 int action = motionEvent.getActionMasked();  // MotionEvent types such as ACTION_UP, ACTION_DOWN
@@ -141,7 +139,7 @@ public class MainActivity extends Activity
                 return true;
             }
         });
-
+        */
         Counter1 = new CountDownTimer(120000 , 500) {
             public void onTick(long millisUntilFinished) {
                 running = true;
@@ -175,14 +173,16 @@ public class MainActivity extends Activity
 
     private void updateScore() {
         int taille = gameView.getSize();
-        float newScore = taille * multi;
-        score += newScore;
-        multi += Math.log(taille)/3f;
-        scoreTextView.setText("Score : " + score);
-        multiplierTextView.setText("x " +String.format("%.2f", multi));
-        if(multi > 1.0f && !running){
-            Counter1.cancel();
-            Counter1.start();
+        if(taille > 1){
+            float newScore = taille * multi;
+            score += newScore;
+            multi += Math.log(taille)/3f;
+            scoreTextView.setText("Score : " + score);
+            multiplierTextView.setText("x " +String.format("%.2f", multi));
+            if(multi > 1.0f && !running){
+                Counter1.cancel();
+                Counter1.start();
+            }
         }
     }
 
@@ -195,6 +195,7 @@ public class MainActivity extends Activity
             t = Integer.parseInt(s);
             gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(t%7),(t/7));
 
+            //gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))).setAlpha(0);
             /*Animation an = new RotateAnimation(0.0f, 360.0f, 0, 0);
 
             // Set the animation's parameters

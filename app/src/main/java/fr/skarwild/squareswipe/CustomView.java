@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.os.Debug;
 import android.os.IBinder;
@@ -27,6 +28,8 @@ public class CustomView extends View {
 
     private int lastX;
     private int lastY;
+    private Path path;
+    private Long lastUpdate;
 
     public CustomView(Context context) {
         super(context);
@@ -42,48 +45,63 @@ public class CustomView extends View {
     private void init() {
         positionsClick = new ArrayList<>(50);
         paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(15f);
         colorLine = Color.argb(255,212,195,227);
         paint.setColor(colorLine);
+        path = new Path();
+        lastUpdate = System.currentTimeMillis();
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        for(int i=1;i<positionsClick.size();i++){
+       /* for(int i=1;i<positionsClick.size();i++){
             Pair<Integer, Integer> p1 = positionsClick.get(i-1);
             Pair<Integer, Integer> p2 = positionsClick.get(i);
             canvas.drawLine(p1.first,p1.second,p2.first,p2.second,paint);
         }
+        */
+        canvas.drawPath(path,paint);
+
+
 
     }
 
     public  void clear(){
-        this.positionsClick.clear();
+        // this.positionsClick.clear();
+        path.reset();
     }
 
     public void addInToList(View childAt,int posX, int posY) {
-            if(positionsClick.size()==0){
-                lastX = posX;
-                lastY = posY;
-            }
-            else{
-                if((Math.abs(lastX - posX) + Math.abs(lastY - posY)) != 1){
-                    return;
-                }
-                lastX = posX;
-                lastY = posY;
-            }
+        if(path.isEmpty()){
+            lastX = posX;
+            lastY = posY;
             int[] result = new int[2];
             childAt.getLocationOnScreen(result);
-            positionsClick.add(new Pair<Integer, Integer>(result[0]+childAt.getWidth()/2 ,result[1]));
+            path.moveTo(result[0]+childAt.getWidth()/2 ,result[1]);
             invalidate();
+        }
+        else{
+            if((lastX == posX && lastY == posY) ){
+                return;
+            }
+            lastX = posX;
+            lastY = posY;
+            int[] result = new int[2];
+            childAt.getLocationOnScreen(result);
+            // positionsClick.add(new Pair<Integer, Integer>(result[0]+childAt.getWidth()/2 ,result[1]));
+            path.lineTo(result[0]+childAt.getWidth()/2 ,result[1]);
+
+
+            invalidate();
+        }
     }
 
     public int getSize() {
-        return positionsClick.size();
+        return 5;
     }
 }
