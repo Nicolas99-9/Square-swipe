@@ -200,7 +200,7 @@ public class CustomGrid extends BaseAdapter {
 
 
         //ts
-
+       // convertView.setAlpha(tmpS.alpha);
         return convertView;
     }
 

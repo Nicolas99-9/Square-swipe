@@ -9,10 +9,12 @@ public class Square {
     public actuel topDroit;
     public actuel basGauche;
     public actuel basDroit;
-    Square(actuel topGauche, actuel topDroit, actuel basGauche, actuel basDroit){
+    public float alpha;
+    Square(actuel topGauche, actuel topDroit, actuel basGauche, actuel basDroit,float a){
         this.topGauche = topGauche;
         this.topDroit = topDroit;
         this.basGauche = basGauche;
         this.basDroit = basDroit;
+        this.alpha = a;
     }
 }

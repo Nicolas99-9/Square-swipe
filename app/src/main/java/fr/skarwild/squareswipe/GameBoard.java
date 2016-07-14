@@ -22,7 +22,7 @@ public class GameBoard {
         for(int i=0;i< lignes;i++){
             board.add(new ArrayList<Square>());
             for(int j=0;j<colonnes;j++){
-                board.get(i).add(new Square(Square.actuel.Bleu,Square.actuel.Bleu,Square.actuel.Violet,Square.actuel.Violet));
+                board.get(i).add(new Square(Square.actuel.Bleu,Square.actuel.Bleu,Square.actuel.Violet,Square.actuel.Violet,0f));
             }
         }
 

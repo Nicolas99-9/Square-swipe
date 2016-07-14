@@ -21,6 +21,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -123,6 +124,8 @@ public class MainActivity extends Activity
             }
         });
 
+        gridview.setAlpha(0);
+
 
 
        /* gridview.setOnTouchListener(new View.OnTouchListener() {
@@ -140,6 +143,16 @@ public class MainActivity extends Activity
             }
         });
         */
+
+        Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                        public void run() {
+                               // TODO Auto-generated method stub
+                                startShowFirst();
+                           }
+       }, 500);
+
+
         Counter1 = new CountDownTimer(120000 , 500) {
             public void onTick(long millisUntilFinished) {
                 running = true;
@@ -164,6 +177,25 @@ public class MainActivity extends Activity
 
 
 
+    }
+
+
+    private void startShowFirst() {
+        gridview.setAlpha(1f);
+
+        for(int i=0;i<gridview.getAdapter().getCount();i++){
+           // gridview.getChildAt(i).setAlpha(0f);
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_start);
+            fadeInAnimation.setStartOffset(i*50);
+            gridview.getChildAt(i).startAnimation(fadeInAnimation);
+        }
+
+
+       /* Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_start);
+        View v = gridview.getChildAt(0);
+        v.startAnimation(fadeInAnimation);
+        */
+        //fadeInAnimation.setStartTime();
     }
 
     private void initGameVariables() {
