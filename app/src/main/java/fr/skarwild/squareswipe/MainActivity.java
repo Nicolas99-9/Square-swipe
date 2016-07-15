@@ -152,6 +152,18 @@ public class MainActivity extends Activity
                            }
        }, 500);
 
+        /*Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            public void run() {
+                // TODO Auto-generated method stub
+                for(int i=0;i<gridview.getAdapter().getCount();i++){
+                    Animation fadeInAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.trans);
+                    gridview.getChildAt(i).startAnimation(fadeInAnimation);
+                }
+            }
+        }, 5000);
+        */
+
 
         Counter1 = new CountDownTimer(120000 , 500) {
             public void onTick(long millisUntilFinished) {
@@ -184,7 +196,7 @@ public class MainActivity extends Activity
         gridview.setAlpha(1f);
 
         for(int i=0;i<gridview.getAdapter().getCount();i++){
-           // gridview.getChildAt(i).setAlpha(0f);
+            // gridview.getChildAt(i).setAlpha(0f);
             Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_start);
             fadeInAnimation.setStartOffset((int)(Math.random()*gridview.getAdapter().getCount()*50f/3f));
             gridview.getChildAt(i).startAnimation(fadeInAnimation);

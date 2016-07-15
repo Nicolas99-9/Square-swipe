@@ -18,4 +18,5 @@
         android:interpolator="@android:anim/linear_interpolator"
         android:duration="1500"
         />
+
 </set>
