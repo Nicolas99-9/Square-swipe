@@ -24,7 +24,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity
@@ -45,11 +47,16 @@ public class MainActivity extends Activity
     private boolean running  = false;
     private CountDownTimer Counter1;
 
+    private boolean isPaused;
+    private ImageView pauseView;
+    private Animation rotateAnimation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // gameView = new gameView(this);
         setContentView(R.layout.activity_main);
+
 
         initGameVariables();
 
@@ -105,6 +112,9 @@ public class MainActivity extends Activity
         gameView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(isPaused){
+                    return true;
+                }
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
                         checkCollisions(motionEvent.getX(),motionEvent.getY());
@@ -186,9 +196,34 @@ public class MainActivity extends Activity
             }
         };
         Counter1.start();
+        final TextView text = (TextView) findViewById(R.id.timerText);
+        text.setTypeface(typeFace);
+        final RelativeLayout layoutT = (RelativeLayout) findViewById(R.id.timerLayout);
+        new CountDownTimer(5000 , 1000) {
+            public void onTick(long millisUntilFinished) {
+                text.setText(millisUntilFinished/1000+" !");
 
+            }
 
-
+            public void onFinish() {
+                layoutT.setVisibility(View.GONE);
+                isPaused = false;
+            }
+        }.start();
+        rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotateanim);
+        pauseView = (ImageView) findViewById(R.id.pauseB);
+        pauseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isPaused = !isPaused;
+                if(isPaused){
+                    pauseView.startAnimation(rotateAnimation);
+                }
+                else{
+                    pauseView.clearAnimation();
+                }
+            }
+        });
     }
 
 
@@ -201,8 +236,6 @@ public class MainActivity extends Activity
             fadeInAnimation.setStartOffset((int)(Math.random()*gridview.getAdapter().getCount()*50f/3f));
             gridview.getChildAt(i).startAnimation(fadeInAnimation);
         }
-
-
        /* Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_start);
         View v = gridview.getChildAt(0);
         v.startAnimation(fadeInAnimation);
@@ -213,6 +246,7 @@ public class MainActivity extends Activity
     private void initGameVariables() {
         score = 0;
         multi = 1.0f;
+        isPaused = true;
     }
 
     private void updateScore() {

@@ -76,6 +76,25 @@
             android:textColor="#FFFFFF"/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/timerLayout"
+        android:clickable="true"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:id="@+id/timerText"
+            android:text="5 !"
+            android:textSize="60dp"
+            android:background="@drawable/circlebackground"
+            android:padding="20dp"
+            android:textColor="#6cb5e0"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -107,6 +126,8 @@
             android:id="@+id/homeB"
             />
     </LinearLayout>
+
+
 
 
 </RelativeLayout>
