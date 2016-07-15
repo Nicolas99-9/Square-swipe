@@ -186,7 +186,7 @@ public class MainActivity extends Activity
         for(int i=0;i<gridview.getAdapter().getCount();i++){
            // gridview.getChildAt(i).setAlpha(0f);
             Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_start);
-            fadeInAnimation.setStartOffset(i*50);
+            fadeInAnimation.setStartOffset((int)(Math.random()*gridview.getAdapter().getCount()*50f/3f));
             gridview.getChildAt(i).startAnimation(fadeInAnimation);
         }
 

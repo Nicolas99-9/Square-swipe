@@ -15,7 +15,7 @@
         android:toAlpha="1.0"
         android:fillAfter="true"
         android:startOffset="0"
-        android:interpolator="@android:anim/accelerate_interpolator"
+        android:interpolator="@android:anim/linear_interpolator"
         android:duration="1500"
         />
 </set>

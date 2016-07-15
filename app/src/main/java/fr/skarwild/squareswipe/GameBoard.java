@@ -3,6 +3,7 @@ package fr.skarwild.squareswipe;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Nicolas on 02/07/2016.
@@ -22,7 +23,8 @@ public class GameBoard {
         for(int i=0;i< lignes;i++){
             board.add(new ArrayList<Square>());
             for(int j=0;j<colonnes;j++){
-                board.get(i).add(new Square(Square.actuel.Bleu,Square.actuel.Bleu,Square.actuel.Violet,Square.actuel.Violet,0f));
+                //Square.actuel.Bleu,Square.actuel.Bleu,Square.actuel.Violet,Square.actuel.Violet,0f
+                board.get(i).add(getRandomSquare());
             }
         }
 
@@ -43,5 +45,41 @@ public class GameBoard {
     }
     public  ArrayList<ArrayList<Square>> getBoard(){
         return board;
+    }
+
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
+    public Square getRandomSquare() {
+        Square randomSquare = new Square(Square.actuel.Vide,Square.actuel.Vide,Square.actuel.Vide,Square.actuel.Vide,0f);
+        int mode = randInt(0,1);
+        if(mode == 0){
+            //horizontal
+            int e1 = randInt(1,Square.actuel.values().length-1);
+            int e2;
+            do{
+                e2 = randInt(1,Square.actuel.values().length-1);
+            }while(e1 == e2);
+            randomSquare.topGauche = Square.actuel.values()[e1];
+            randomSquare.topDroit = Square.actuel.values()[e1];
+            randomSquare.basDroit = Square.actuel.values()[e2];
+            randomSquare.basGauche = Square.actuel.values()[e2];
+        }
+        else{
+            //vertical
+            int e1 = randInt(1,Square.actuel.values().length-1);
+            int e2;
+            do{
+                e2 = randInt(1,Square.actuel.values().length-1);
+            }while(e1 == e2);
+            randomSquare.topGauche = Square.actuel.values()[e1];
+            randomSquare.basGauche = Square.actuel.values()[e1];
+            randomSquare.basDroit = Square.actuel.values()[e2];
+            randomSquare.topDroit = Square.actuel.values()[e2];
+        }
+        return randomSquare;
     }
 }
