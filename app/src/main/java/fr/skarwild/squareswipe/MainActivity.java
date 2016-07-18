@@ -1,6 +1,7 @@
 package fr.skarwild.squareswipe;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.app.IntentService;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,8 @@ import android.icu.text.DecimalFormat;
 import android.os.CountDownTimer;
 import android.os.Debug;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -31,6 +34,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
+
+import java.util.List;
 
 public class MainActivity extends Activity
 {
@@ -55,6 +60,7 @@ public class MainActivity extends Activity
     String[] t = new String[7*7];
     float decallageHaut;
     private int count;
+    private endUI newFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,10 +282,20 @@ public class MainActivity extends Activity
                         .show();
             }
         });
+
+        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
     }
 
     private void finishGame() {
-        
+        Log.v("FINISH THE GAME","close");
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+
+        newFragment = new endUI();
+        //tests
+        ft.add(R.id.mainLayout, newFragment, "detailFragment").addToBackStack("endMenu");
+        ft.commit();
     }
 
 
@@ -368,4 +384,15 @@ public class MainActivity extends Activity
         // Tell the gameView pause method to execute
         //gameView.pause();
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getMulti() {
+        return String.format("%.2f", multi);
+
+
+    }
+
 }

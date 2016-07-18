@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:clickable="true"
     tools:context="fr.skarwild.squareswipe.MainActivity">
 
     <RelativeLayout
@@ -39,6 +41,7 @@
         android:layout_alignTop="@+id/reloadEnd"
         android:layout_alignRight="@+id/reloadEnd"
         android:layout_alignEnd="@+id/reloadEnd"
+        android:textSize="17dp"
         android:id="@+id/textView" />
 
     <TextView
@@ -48,6 +51,7 @@
         android:text="125"
         android:id="@+id/score"
         android:textColor="#84ca25"
+        android:textSize="25dp"
         android:layout_alignRight="@id/textView"/>
 
     <TextView
@@ -58,6 +62,7 @@
         android:layout_above="@+id/reloadEnd"
         android:layout_alignLeft="@+id/reloadEnd"
         android:layout_alignStart="@+id/reloadEnd"
+        android:textSize="17dp"
         android:id="@+id/textView3" />
 
     <TextView
@@ -67,6 +72,7 @@
         android:text="12"
         android:id="@+id/multi"
         android:textColor="#fd3359"
+        android:textSize="25dp"
         android:layout_alignLeft="@id/textView3"/>
 
     <TextView
@@ -77,6 +83,7 @@
         android:layout_below="@+id/reloadEnd"
         android:layout_alignRight="@+id/linearLayout2"
         android:layout_alignEnd="@+id/linearLayout2"
+        android:textSize="17dp"
         android:id="@+id/textView2" />
 
     <TextView
@@ -86,6 +93,7 @@
         android:text="12"
         android:id="@+id/number"
         android:textColor="#804ca9"
+        android:textSize="25dp"
         android:layout_alignLeft="@id/textView2"/>
 
     <TextView
@@ -97,6 +105,7 @@
         android:layout_alignBottom="@+id/reloadEnd"
         android:layout_alignRight="@+id/textView3"
         android:layout_alignEnd="@+id/textView3"
+        android:textSize="17dp"
         android:layout_marginRight="40dp" />
 
     <TextView
@@ -106,6 +115,7 @@
         android:text="15552"
         android:id="@+id/best"
         android:textColor="#4091e3"
+        android:textSize="25dp"
         android:layout_alignRight="@id/textView4"/>
     <LinearLayout
         android:layout_width="wrap_content"
