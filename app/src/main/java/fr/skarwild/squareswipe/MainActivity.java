@@ -23,11 +23,14 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 public class MainActivity extends Activity
 {
@@ -40,7 +43,6 @@ public class MainActivity extends Activity
     public static GridView gridview;
     private CustomView gameView;
     private int position;
-    private int t;
 
     private int score;
     private float multi;
@@ -50,6 +52,9 @@ public class MainActivity extends Activity
     private boolean isPaused;
     private ImageView pauseView;
     private Animation rotateAnimation;
+    String[] t = new String[7*7];
+    float decallageHaut;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +82,7 @@ public class MainActivity extends Activity
 
 
 
-        String[] t = new String[7*7];
+
 
         float OFFSET = 8f;
 
@@ -88,7 +93,7 @@ public class MainActivity extends Activity
         int height = metrics.heightPixels;
         widthSquare = Math.min(((width - 5*OFFSET-2*50)/7),200);
 
-        float decallageHaut = (height - 7  * (widthSquare + OFFSET))/2f;
+        decallageHaut = (height - 7  * (widthSquare + OFFSET))/2f;
         GameBoard g = new GameBoard(7,7);
         adapter = new CustomGrid(MainActivity.this,t,g);
         gridview = (GridView) findViewById(R.id.grid_view);
@@ -177,6 +182,9 @@ public class MainActivity extends Activity
 
         Counter1 = new CountDownTimer(120000 , 500) {
             public void onTick(long millisUntilFinished) {
+                if(isPaused){
+                    return;
+                }
                 running = true;
                 multi -= Math.log(multi)/4f;
                 if(multi<=1f){
@@ -224,6 +232,54 @@ public class MainActivity extends Activity
                 }
             }
         });
+
+        ImageView b = (ImageView) findViewById(R.id.reloadB);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!running ){
+                    return;
+                }
+                initGameVariables();
+                GameBoard g = new GameBoard(7,7);
+                adapter = new CustomGrid(MainActivity.this,t,g);
+                gridview.setAdapter(adapter);
+                multiplierTextView.setText("x " +String.format("%.2f", multi));
+                score = 0;
+                scoreTextView.setText("Score : " + score);
+                isPaused = false;
+            }
+        });
+        ImageView skipB = (ImageView) findViewById(R.id.skipB);
+        skipB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new LovelyStandardDialog(MainActivity.this)
+                        .setTopColorRes(R.color.indigo)
+                        .setButtonsColorRes(R.color.darkDeepOrange)
+                        .setIcon(R.drawable.info)
+                        .setTitle(R.string.rate_title)
+                        .setMessage(R.string.rate_message)
+                        .setPositiveButton(android.R.string.ok, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                    Log.v("QUESRION","yes");
+                                    finishGame();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                Log.v("QUESRION","no");
+                            }
+                        })
+                        .show();
+            }
+        });
+    }
+
+    private void finishGame() {
+        
     }
 
 
@@ -270,8 +326,8 @@ public class MainActivity extends Activity
         position = gridview.pointToPosition((int)y, (int)y1);
         String s = (String) gridview.getItemAtPosition(position);
         if(s != null) {
-            t = Integer.parseInt(s);
-            gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(t%7),(t/7));
+            count = Integer.parseInt(s);
+            gameView.addInToList(gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))),(count%7),(count/7));
 
             //gridview.getChildAt(Integer.parseInt(String.valueOf(gridview.getItemAtPosition(position)))).setAlpha(0);
             /*Animation an = new RotateAnimation(0.0f, 360.0f, 0, 0);

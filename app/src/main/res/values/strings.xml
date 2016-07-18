@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Square Swipe</string>
+    <string name="rate_title">Really ?</string>
+    <string name="rate_message">Lel</string>
 </resources>

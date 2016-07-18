@@ -115,8 +115,9 @@
             android:layout_height="45dp"
             android:src="@drawable/pauseb"
             android:id="@+id/pauseB"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+
             />
 
         <ImageView
@@ -124,6 +125,15 @@
             android:layout_height="45dp"
             android:src="@drawable/homeb"
             android:id="@+id/homeB"
+            android:layout_marginRight="30dp"
+            />
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/skipb"
+            android:id="@+id/skipB"
+
             />
     </LinearLayout>
 
