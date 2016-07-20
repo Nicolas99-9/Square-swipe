@@ -129,15 +129,15 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/reloadb"
-            android:id="@+id/reloadB"
+            android:src="@drawable/leader"
+            android:id="@+id/leaderB"
 
             />
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/pauseb"
-            android:id="@+id/pauseB"
+            android:src="@drawable/shareb"
+            android:id="@+id/shareB"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
             />

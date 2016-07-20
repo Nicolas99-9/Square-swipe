@@ -6,6 +6,7 @@ import android.app.IntentService;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.icu.text.DecimalFormat;
 import android.os.CountDownTimer;
@@ -61,7 +62,6 @@ public class MainActivity extends Activity
     float decallageHaut;
     private int count;
     private endUI newFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +120,7 @@ public class MainActivity extends Activity
 
 
         gameView = (CustomView) findViewById(R.id.gameview);
+        gameView.setBoard(g);
         gameView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -250,6 +251,7 @@ public class MainActivity extends Activity
                 GameBoard g = new GameBoard(7,7);
                 adapter = new CustomGrid(MainActivity.this,t,g);
                 gridview.setAdapter(adapter);
+                gameView.setBoard(g);
                 multiplierTextView.setText("x " +String.format("%.2f", multi));
                 score = 0;
                 scoreTextView.setText("Score : " + score);
@@ -296,6 +298,20 @@ public class MainActivity extends Activity
         //tests
         ft.add(R.id.mainLayout, newFragment, "detailFragment").addToBackStack("endMenu");
         ft.commit();
+    }
+
+
+    public  void newGame(){
+        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        initGameVariables();
+        GameBoard g = new GameBoard(7,7);
+        adapter = new CustomGrid(MainActivity.this,t,g);
+        gridview.setAdapter(adapter);
+        multiplierTextView.setText("x " +String.format("%.2f", multi));
+        score = 0;
+        gameView.setBoard(g);
+        scoreTextView.setText("Score : " + score);
+        isPaused = false;
     }
 
 
@@ -391,7 +407,6 @@ public class MainActivity extends Activity
 
     public String getMulti() {
         return String.format("%.2f", multi);
-
 
     }
 

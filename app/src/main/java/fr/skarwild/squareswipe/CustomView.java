@@ -5,7 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.RectF;
+import android.location.Location;
 import android.os.Debug;
 import android.os.IBinder;
 import android.support.annotation.MainThread;
@@ -30,6 +32,14 @@ public class CustomView extends View {
     private int lastY;
     private Path path;
     private Long lastUpdate;
+    private GameBoard board;
+    private Square lastSquare;
+    private Square current;
+    private boolean ajout= false;
+
+    private Point p1;
+    private Point p2;
+
 
     public CustomView(Context context) {
         super(context);
@@ -41,6 +51,8 @@ public class CustomView extends View {
         super(context,attrs);
         init();
     }
+
+
 
     private void init() {
         positionsClick = new ArrayList<>(50);
@@ -78,15 +90,40 @@ public class CustomView extends View {
 
     public void addInToList(View childAt,int posX, int posY) {
         if(path.isEmpty()){
+            lastSquare = board.getBoard().get(posY).get(posX);
             lastX = posX;
             lastY = posY;
             int[] result = new int[2];
             childAt.getLocationOnScreen(result);
             path.moveTo(result[0]+childAt.getWidth()/2 ,result[1]);
+            p1 = new Point(posX, posY);
+
             invalidate();
         }
         else{
             if((lastX == posX && lastY == posY) ){
+                return;
+            }
+            /*if(Math.sqrt(Math.pow(lastX - posX, 2) + Math.pow(lastY- posY, 2)) != 1){
+                return;
+            }
+            */
+            p2 = new Point(posX, posY);
+            current = board.getBoard().get(posY).get(posX);
+
+            if(posX < lastX){
+                ajout = (current.topDroit == lastSquare.topGauche) || (current.basDroit == lastSquare.basGauche);
+            }
+            else if(posX > lastY){
+                ajout = (current.topGauche == lastSquare.topDroit) || (current.basGauche == lastSquare.basDroit);
+            }
+            else if(posY > lastY){
+                ajout =  (current.basDroit == lastSquare.topDroit) || (current.basGauche == lastSquare.topGauche);
+            }
+            else if(posY < lastY){
+                ajout =  (current.topDroit == lastSquare.basDroit) || (current.topGauche == lastSquare.basGauche);
+            }
+            if(!ajout){
                 return;
             }
             lastX = posX;
@@ -95,13 +132,17 @@ public class CustomView extends View {
             childAt.getLocationOnScreen(result);
             // positionsClick.add(new Pair<Integer, Integer>(result[0]+childAt.getWidth()/2 ,result[1]));
             path.lineTo(result[0]+childAt.getWidth()/2 ,result[1]);
-
-
+            lastSquare = board.getBoard().get(posY).get(posX);
+            ajout = false;
             invalidate();
         }
     }
 
     public int getSize() {
         return 5;
+    }
+
+    public void setBoard(GameBoard board) {
+        this.board = board;
     }
 }
