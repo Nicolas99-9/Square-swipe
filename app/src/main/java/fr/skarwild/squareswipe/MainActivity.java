@@ -134,6 +134,7 @@ public class MainActivity extends Activity
                     case MotionEvent.ACTION_MOVE:
                         checkCollisions(motionEvent.getX(),motionEvent.getY());
                         // gameView.invalidate();
+
                         break;
                     // Player has removed finger from screen
                     case MotionEvent.ACTION_UP:
@@ -389,7 +390,7 @@ public class MainActivity extends Activity
         super.onResume();
 
         // Tell the gameView resume method to execute
-        //gameView.resume();
+        gameView.resume();
     }
 
     // This method executes when the player quits the game
@@ -398,7 +399,7 @@ public class MainActivity extends Activity
         super.onPause();
 
         // Tell the gameView pause method to execute
-        //gameView.pause();
+        gameView.pause();
     }
 
     public int getScore() {

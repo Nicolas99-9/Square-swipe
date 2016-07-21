@@ -1,5 +1,6 @@
 package fr.skarwild.squareswipe;
 
+import android.graphics.Point;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -15,11 +16,14 @@ public class GameBoard {
 
     private ArrayList<ArrayList<Square>> board;
     private int score;
-    private float multiplier;
+    public float multiplier;
+    public ArrayList<ArrayList<Integer>> canDoIt;
+    private int colonnes;
 
 
     public GameBoard(int lignes, int colonnes){
         board = new ArrayList<>();
+        this.colonnes = colonnes;
         for(int i=0;i< lignes;i++){
             board.add(new ArrayList<Square>());
             for(int j=0;j<colonnes;j++){
@@ -31,6 +35,58 @@ public class GameBoard {
         debugShow();
         multiplier = 1.0f;
         score = 0;
+
+
+
+        generateGoodValues();
+    }
+
+    private void generateGoodValues() {
+        canDoIt = new ArrayList<>();
+        for(int i=0;i<colonnes*colonnes;i++){
+            ArrayList tmp = new ArrayList<Integer>();
+            for(int j=0;j<colonnes*colonnes;j++){
+                int count = 0 ;
+                int lastX = i%colonnes ;
+                int lastY =  i/colonnes ;
+                int posX =  j%colonnes;
+                int posY =  j/colonnes;
+                Square current = board.get(posY).get(posX);
+                Square lastSquare =  board.get(lastY).get(lastX);;
+                Boolean ajout  = false;
+                if(posX < lastX){
+                    ajout = (current.topDroit == lastSquare.topGauche) || (current.basDroit == lastSquare.basGauche);
+                }
+                else if(posX > lastY){
+                    ajout = (current.topGauche == lastSquare.topDroit) || (current.basGauche == lastSquare.basDroit);
+                }
+                else if(posY > lastY){
+                    ajout =  (current.basDroit == lastSquare.topDroit) || (current.basGauche == lastSquare.topGauche);
+                }
+                else if(posY < lastY){
+                    ajout =  (current.topDroit == lastSquare.basDroit) || (current.topGauche == lastSquare.basGauche);
+                }
+
+                if(Math.sqrt(Math.pow(lastX - posX, 2) + Math.pow(lastY- posY, 2)) != 1){
+                    ajout = false;
+                }
+                if(ajout){
+                    count = 1;
+                }
+                tmp.add(count);
+            }
+            canDoIt.add(tmp);
+        }
+
+        int listSize = canDoIt.size();
+        for (int i = 0; i<listSize; i++){
+            String buffer ="";
+            for(Integer t  : canDoIt.get(i)){
+                buffer += " " + t;
+            }
+            Log.v("BUFFER " , buffer);
+        }
+        //test
     }
 
     public  void debugShow(){
@@ -81,5 +137,9 @@ public class GameBoard {
             randomSquare.topDroit = Square.actuel.values()[e2];
         }
         return randomSquare;
+    }
+
+    public boolean canDoItS(int lastX, int lastX1, int posX, int posY) {
+        return canDoIt.get(posY*colonnes + posX).get(lastX1*colonnes+ lastX)==1;
     }
 }

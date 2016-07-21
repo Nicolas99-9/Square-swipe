@@ -40,6 +40,13 @@ public class CustomView extends View {
     private Point p1;
     private Point p2;
 
+    private Thread gameThread;
+    private int i;
+
+    private volatile View childAt;
+    private volatile int posX;
+    private volatile int posY;
+
 
     public CustomView(Context context) {
         super(context);
@@ -65,6 +72,8 @@ public class CustomView extends View {
         paint.setColor(colorLine);
         path = new Path();
         lastUpdate = System.currentTimeMillis();
+        posX = -1;
+        posY = -1;
     }
 
     @Override
@@ -89,6 +98,21 @@ public class CustomView extends View {
     }
 
     public void addInToList(View childAt,int posX, int posY) {
+        this.childAt = childAt;
+        this.posX = posX;
+        this.posY = posY;
+     //   handleClick();
+    }
+
+    public int getSize() {
+        return 5;
+    }
+
+    public void setBoard(GameBoard board) {
+        this.board = board;
+    }
+
+    public  void handleClick(){
         if(path.isEmpty()){
             lastSquare = board.getBoard().get(posY).get(posX);
             lastX = posX;
@@ -98,16 +122,16 @@ public class CustomView extends View {
             path.moveTo(result[0]+childAt.getWidth()/2 ,result[1]);
             p1 = new Point(posX, posY);
 
-            invalidate();
+            postInvalidate();
         }
         else{
-            if((lastX == posX && lastY == posY) ){
+            /*if((lastX == posX && lastY == posY) ){
                 return;
             }
-            /*if(Math.sqrt(Math.pow(lastX - posX, 2) + Math.pow(lastY- posY, 2)) != 1){
+            if(Math.sqrt(Math.pow(lastX - posX, 2) + Math.pow(lastY- posY, 2)) != 1){
                 return;
             }
-            */
+
             p2 = new Point(posX, posY);
             current = board.getBoard().get(posY).get(posX);
 
@@ -126,6 +150,10 @@ public class CustomView extends View {
             if(!ajout){
                 return;
             }
+            */
+            if(!board.canDoItS(posX,posY, lastX, lastY)){
+                return;
+            }
             lastX = posX;
             lastY = posY;
             int[] result = new int[2];
@@ -134,15 +162,40 @@ public class CustomView extends View {
             path.lineTo(result[0]+childAt.getWidth()/2 ,result[1]);
             lastSquare = board.getBoard().get(posY).get(posX);
             ajout = false;
-            invalidate();
+            postInvalidate();
         }
     }
-
-    public int getSize() {
-        return 5;
+    public void resume() {
+        Log.v("PAUSE " , "resume");
+        if(gameThread != null && gameThread.isAlive()){
+            return;
+        }
+        i = 0;
+        gameThread = new Thread() {
+            @Override
+            public void run(){
+                while (!Thread.currentThread().isInterrupted()){
+                    try {
+                        if(posX != -1){
+                            handleClick();
+                        }
+                        posX = -1;
+                        Thread.sleep(16);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        gameThread.start();
     }
 
-    public void setBoard(GameBoard board) {
-        this.board = board;
+    public void pause() {
+        Log.v("PAUSE " , "pause");
+        try {
+            gameThread.join();
+        } catch (InterruptedException e) {
+            Log.e("Error:", "joining thread");
+        }
     }
 }
